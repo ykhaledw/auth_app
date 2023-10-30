@@ -13,24 +13,24 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: BlocConsumer<UserRegistrationCubit, UserRegistrationState>(
-          listener: (context, state) {
-            if (state is UserRegistrationFailure) {
-              print('Failed to Sign Up');
-            }
-            if (state is UserRegistrationSuccess) {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (context) => const LoginView(),
-                  ),
-                  (route) => false);
-            }
-          },
-          builder: (context, state) {
-            return ModalProgressHUD(
-              inAsyncCall: state is UserRegistrationLoading ? true : false,
-              child: const Column(
+      body: BlocConsumer<UserRegistrationCubit, UserRegistrationState>(
+        listener: (context, state) {
+          if (state is UserRegistrationFailure) {
+            print('Failed to Sign Up');
+          }
+          if (state is UserRegistrationSuccess) {
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => const LoginView(),
+                ),
+                (route) => false);
+          }
+        },
+        builder: (context, state) {
+          return ModalProgressHUD(
+            inAsyncCall: state is UserRegistrationLoading ? true : false,
+            child: const SingleChildScrollView(
+              child: Column(
                 children: [
                   ProfilePhotos(
                     userImage: AssetImage('assets/images/intern2grow.png'),
@@ -51,9 +51,9 @@ class RegisterView extends StatelessWidget {
                   RegisterBody(),
                 ],
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }

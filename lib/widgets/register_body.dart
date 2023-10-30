@@ -1,10 +1,12 @@
 import 'package:auth_mobile_app/constants.dart';
+import 'package:auth_mobile_app/cubits/user_registration_cubit.dart';
+import 'package:auth_mobile_app/models/user_model.dart';
 import 'package:auth_mobile_app/views/login_view.dart';
-import 'package:auth_mobile_app/views/profile_view.dart';
 import 'package:auth_mobile_app/widgets/custom_button.dart';
 import 'package:auth_mobile_app/widgets/custom_text_field.dart';
 import 'package:auth_mobile_app/widgets/underline_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterBody extends StatefulWidget {
   const RegisterBody({super.key});
@@ -20,6 +22,10 @@ class _RegisterBodyState extends State<RegisterBody> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   bool isVisible = true;
+  String? image;
+  late String userName;
+  late String email;
+  late String password;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -36,6 +42,9 @@ class _RegisterBodyState extends State<RegisterBody> {
             ),
             const SizedBox(height: 8),
             CustomTextfField(
+              onChanged: (value) {
+                userName = value;
+              },
               textController: textController,
               icon: Icons.clear,
               onPressed: () {
@@ -53,6 +62,9 @@ class _RegisterBodyState extends State<RegisterBody> {
             ),
             const SizedBox(height: 8),
             CustomTextfField(
+              onChanged: (value) {
+                email = value;
+              },
               textController: emailController,
               icon: Icons.clear,
               onPressed: () {
@@ -70,6 +82,9 @@ class _RegisterBodyState extends State<RegisterBody> {
             ),
             const SizedBox(height: 8),
             CustomTextfField(
+              onChanged: (value) {
+                password = value;
+              },
               textController: passwordController,
               icon: Icons.visibility_off,
               hiddenText: isVisible,
@@ -115,11 +130,18 @@ class _RegisterBodyState extends State<RegisterBody> {
               title: 'Register',
               onTap: () {
                 if (formKey.currentState!.validate()) {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const ProfileView();
-                      },
-                    ), (route) => false);
+                  formKey.currentState!.save();
+
+                  var userModel = UserModel(
+                    imageurl: image ??
+                        'https://i.pinimg.com/564x/41/c9/c9/41c9c9d27bce59854d781eeaa5698215.jpg',
+                    userName: userName,
+                    email: email,
+                    password: password,
+                  );
+
+                  BlocProvider.of<UserRegistrationCubit>(context)
+                      .addUser(userModel);
                 } else {
                   autovalidateMode = AutovalidateMode.always;
                   setState(() {});

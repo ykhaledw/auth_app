@@ -10,8 +10,9 @@ import 'package:hive_flutter/adapters.dart';
 void main() async {
   Bloc.observer = SimpleBlocObserver();
   await Hive.initFlutter();
-  await Hive.openBox(kUserBox);
   Hive.registerAdapter(UserModelAdapter());
+  await Hive.openBox(kUserBox);
+
   runApp(const AuthApp());
 }
 

@@ -14,6 +14,7 @@ class UserRegistrationCubit extends Cubit<UserRegistrationState> {
       var usersBox = Hive.box(kUserBox);
 
       await usersBox.add(user);
+      emit(UserRegistrationSuccess());
     } catch (e) {
       emit(UserRegistrationFailure(e.toString()));
     }

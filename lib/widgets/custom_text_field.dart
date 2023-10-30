@@ -7,17 +7,19 @@ class CustomTextfField extends StatelessWidget {
     this.onPressed,
     required this.icon,
     this.hiddenText = false,
-    this.textController,
+    this.textController, this.onChanged,
   });
 
   final void Function()? onPressed;
   final IconData icon;
   final bool hiddenText;
   final TextEditingController? textController;
+  final void Function(String)? onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onChanged,
       controller: textController,
       validator: (value) {
         if (value?.isEmpty ?? true) {
