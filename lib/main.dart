@@ -1,7 +1,11 @@
+import 'package:auth_mobile_app/constants.dart';
 import 'package:auth_mobile_app/views/login_view.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox(kUserBox);
   runApp(const AuthApp());
 }
 
