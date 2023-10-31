@@ -1,4 +1,5 @@
 import 'package:auth_mobile_app/constants.dart';
+import 'package:auth_mobile_app/cubits/user_login_cubits/user_login_cubit.dart';
 import 'package:auth_mobile_app/cubits/user_registration_cubit.dart';
 import 'package:auth_mobile_app/models/user_model.dart';
 import 'package:auth_mobile_app/simple_bloc_observer.dart';
@@ -24,6 +25,7 @@ class AuthApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => UserRegistrationCubit()),
+        BlocProvider(create: (context)=> UserLoginCubit()),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

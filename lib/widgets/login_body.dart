@@ -1,10 +1,11 @@
 import 'package:auth_mobile_app/constants.dart';
-import 'package:auth_mobile_app/views/profile_view.dart';
+import 'package:auth_mobile_app/cubits/user_login_cubits/user_login_cubit.dart';
 import 'package:auth_mobile_app/views/register_view.dart';
 import 'package:auth_mobile_app/widgets/custom_button.dart';
 import 'package:auth_mobile_app/widgets/custom_text_field.dart';
 import 'package:auth_mobile_app/widgets/underline_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginBody extends StatefulWidget {
   const LoginBody({super.key});
@@ -19,6 +20,11 @@ class _LoginBodyState extends State<LoginBody> {
   TextEditingController textController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool isVisible = true;
+  late String userNameEntered;
+  late String passwordEntered;
+  String? image;
+  late String email;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,6 +41,9 @@ class _LoginBodyState extends State<LoginBody> {
             ),
             const SizedBox(height: 8),
             CustomTextfField(
+              onChanged: (value) async {
+                userNameEntered = value;
+              },
               textController: textController,
               icon: Icons.clear,
               onPressed: () {
@@ -52,6 +61,9 @@ class _LoginBodyState extends State<LoginBody> {
             ),
             const SizedBox(height: 8),
             CustomTextfField(
+              onChanged: (value) async {
+                passwordEntered = value;
+              },
               textController: passwordController,
               icon: Icons.visibility_off,
               hiddenText: isVisible,
@@ -95,13 +107,13 @@ class _LoginBodyState extends State<LoginBody> {
             CustomButton(
               buttonColor: kButtonColor,
               title: 'Log in',
-              onTap: () {
+              onTap: () async {
                 if (formKey.currentState!.validate()) {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const ProfileView();
-                      },
-                    ), (route) => false);
+                  userNameEntered = textController.text;
+                  passwordEntered = passwordController.text;
+
+                  BlocProvider.of<UserLoginCubit>(context)
+                      .userLogin(userNameEntered, passwordEntered);
                 } else {
                   autovalidateMode = AutovalidateMode.always;
                   setState(() {});
@@ -136,4 +148,6 @@ class _LoginBodyState extends State<LoginBody> {
       ),
     );
   }
+
+  void login() async {}
 }

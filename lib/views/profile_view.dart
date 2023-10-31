@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
+  static String id = 'Profile_Page';
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,8 @@ class ProfileView extends StatelessWidget {
         child: Column(
           children: [
             ProfilePhotos(
-              userImage: NetworkImage('https://i.pinimg.com/564x/d5/cb/77/d5cb77ff9a3deea8995dc20d3a3d6d31.jpg'),
+              userImage: NetworkImage(
+                  'https://i.pinimg.com/564x/d5/cb/77/d5cb77ff9a3deea8995dc20d3a3d6d31.jpg'),
             ),
             SizedBox(
               height: 18,
